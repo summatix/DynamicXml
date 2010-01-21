@@ -36,6 +36,24 @@ namespace DynamicXml
         }
 
         /// <summary>
+        /// Provides the implementation of converting the DynamicObject to another type
+        /// </summary>
+        /// <param name="binder">The binder provided by the call site</param>
+        /// <param name="result">The result of the conversion</param>
+        /// <returns>Returns true if the operation is complete, false if the call site should determine
+        /// behavior</returns>
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            if (binder.Type == typeof(Dictionary<string, object>))
+            {
+                result = new Dictionary<string, object>(_items);
+                return true;
+            }
+
+            return base.TryConvert(binder, out result);
+        }
+
+        /// <summary>
         /// Gets the items this instance contains. This method is only ever called once when required
         /// </summary>
         /// <returns>The items this instance contains identified by node names</returns>

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Xml.Linq;
 
 namespace DynamicXml
@@ -38,6 +39,60 @@ namespace DynamicXml
         public override string ToString()
         {
             return "Array";
+        }
+
+        /// <summary>
+        /// Provides the implementation of converting the DynamicObject to another type
+        /// </summary>
+        /// <param name="binder">The binder provided by the call site</param>
+        /// <param name="result">The result of the conversion</param>
+        /// <returns>Returns true if the operation is complete, false if the call site should determine
+        /// behavior</returns>
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            // TODO: Refactor
+            if (binder.Type == typeof(List<object>))
+            {
+                Initialize();
+                result = new List<object>(_items);
+                return true;
+            }
+
+            if (binder.Type == typeof(List<string>))
+            {
+                Initialize();
+                List<string> reference = new List<string>(_items.Count);
+                foreach (var item in _items)
+                {
+                    reference.Add(item.ToString());
+                }
+
+                result = reference;
+                return true;
+            }
+
+            if (binder.Type == typeof(object[]))
+            {
+                Initialize();
+                result = _items.ToArray();
+                return true;
+            }
+
+            if (binder.Type == typeof(string[]))
+            {
+                Initialize();
+                int count = _items.Count;
+                string[] reference = new string[count];
+                for (int i = 0; i < count; ++i)
+                {
+                    reference[i] = _items[i].ToString();
+                }
+
+                result = reference;
+                return true;
+            }
+
+            return base.TryConvert(binder, out result);
         }
 
         /// <summary>

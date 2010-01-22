@@ -1,32 +1,30 @@
 ﻿#region Header
 
-/*
- * Copyright (c) ShiverCube 2010
- *
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are
- *  met:
- *
- *      * Redistributions of source code must retain the above copyright
- *        notice, this list of conditions and the following disclaimer.
- *      * Neither the name of the copyright holder nor the names of its
- *        contributors may be used to endorse or promote products derived from
- *        this software without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- *  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- *  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- *  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- *  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- *  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- *  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
- *  THE POSSIBILITY OF SUCH DAMAGE.
- */
+// Copyright (c) ShiverCube 2010
+//
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//    * Redistributions of source code must retain the above copyright
+//      notice, this list of conditions and the following disclaimer.
+//    * Neither the name of the copyright holder nor the names of its
+//      contributors may be used to endorse or promote products derived from
+//      this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+// THE POSSIBILITY OF SUCH DAMAGE.
 
 #endregion Header
 
@@ -42,8 +40,10 @@ namespace DynamicXml
     {
         #region Fields
 
-        private static string[] entities = { "&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;" };
-        private static string[] specialChars = { "&", "<", ">", "\"", "'", "-" };
+        private static readonly string[] Entities = { "&amp;", "&lt;", "&gt;", "&quot;", "&#39;", "&#45;" };
+        private static readonly int EntitiesLength = Entities.Length;
+        private static readonly string[] SpecialChars = { "&", "<", ">", "\"", "'", "-" };
+        private static readonly int SpecialCharsLength = SpecialChars.Length;
 
         #endregion Fields
 
@@ -58,9 +58,9 @@ namespace DynamicXml
         /// <returns>The decoded value</returns>
         public static string Decode(string value)
         {
-            for (int i = 0, len = specialChars.Length; i < len; ++i)
+            for (int i = 0; i < EntitiesLength; ++i)
             {
-                value = value.Replace(entities[i], specialChars[i]);
+                value = value.Replace(Entities[i], SpecialChars[i]);
             }
 
             return value;
@@ -77,9 +77,9 @@ namespace DynamicXml
             value = Regex.Replace(value, @"&#(\d+);", @"__TEMP_AMPERSANDS__\1;");
             value = Regex.Replace(value, @"&(\w+);", @"__TEMP_AMPERSANDS__\1;");
 
-            for (int i = 0, len = specialChars.Length; i < len; ++i)
+            for (int i = 0; i < SpecialCharsLength; ++i)
             {
-                value = value.Replace(specialChars[i], entities[i]);
+                value = value.Replace(SpecialChars[i], Entities[i]);
             }
 
             // Decode the temp markers back to entities
@@ -104,10 +104,8 @@ namespace DynamicXml
             {
                 return new XmlElement(xelement);
             }
-            else
-            {
-                return Decode(xelement.Value);
-            }
+
+            return Decode(xelement.Value);
         }
 
         #endregion Internal Static Methods

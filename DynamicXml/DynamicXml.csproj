@@ -45,9 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aliases\IXArray.cs" />
-    <Compile Include="Aliases\IXElement.cs" />
-    <Compile Include="Aliases\IXItem.cs" />
+    <Compile Include="IXArray.cs" />
+    <Compile Include="IXElement.cs" />
+    <Compile Include="IXItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlArray.cs" />
     <Compile Include="XmlBuilder.cs" />

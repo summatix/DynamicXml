@@ -1,25 +1,29 @@
-﻿using System;
-using DynamicXml;
-using System.Collections.Generic;
-
-namespace ExampleApplication
+﻿namespace ExampleApplication
 {
+    using DynamicXml;
+    using System;
+    using System.Collections.Generic;
+
     class Program
     {
+        #region Methods
+
+        #region Private Static Methods
+
         static void Main(string[] args)
         {
             string data = @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<xml>
-	<item>armourous</item>
-	<item>blue&#45;green&#45;portrait&#45;bill&#45;evans</item>
-	<item>doing&#45;it&#45;yourself</item>
-	<item>jim&#45;flora&#45;atomic&#45;cubism</item>
-	<item>ornithology&#45;portrait&#45;charlie&#45;parker</item>
-	<item>perelman&#45;whip&#45;smart&#45;tack&#45;sharp</item>
-	<item>prides&#45;pressures&#45;author</item>
-	<item>slim&#45;aarons&#45;privileged&#45;auteur</item>
-	<item>wellness</item>
-</xml>";
+            <xml>
+            <item>armourous</item>
+            <item>blue&#45;green&#45;portrait&#45;bill&#45;evans</item>
+            <item>doing&#45;it&#45;yourself</item>
+            <item>jim&#45;flora&#45;atomic&#45;cubism</item>
+            <item>ornithology&#45;portrait&#45;charlie&#45;parker</item>
+            <item>perelman&#45;whip&#45;smart&#45;tack&#45;sharp</item>
+            <item>prides&#45;pressures&#45;author</item>
+            <item>slim&#45;aarons&#45;privileged&#45;auteur</item>
+            <item>wellness</item>
+            </xml>";
 
             dynamic xml = new DynamicXmlReader(data);
             foreach (var item in xml.item)
@@ -35,23 +39,29 @@ namespace ExampleApplication
             }
         }
 
+        #endregion Private Static Methods
+
+        #endregion Methods
+
+        #region Other
+
         /*static void Main(string[] args)
         {
             string data = @"<?xml version=""1.0"" encoding=""UTF-8""?>
-<xml>
-    <errors>
+        <xml>
+        <errors>
         <error>This is error 1</error>
         <data>
             <str>username</str>
             <str>password</str>
         </data>
-    </errors>
-    <errors>
+        </errors>
+        <errors>
         <error>This is error 2</error>
         <error>This is error 3</error>
-    </errors>
-	<message>This is message</message>
-</xml>";
+        </errors>
+        <message>This is message</message>
+        </xml>";
 
             dynamic xml = new DynamicXmlReader(data);
             if (xml.errors != null)
@@ -120,5 +130,7 @@ namespace ExampleApplication
                 Console.WriteLine(el);
             }
         }*/
+
+        #endregion Other
     }
 }
